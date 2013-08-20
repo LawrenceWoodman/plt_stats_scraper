@@ -1,0 +1,8 @@
+# Vim Swap files
+*.swp
+
+#Backup files
+*~
+
+# Racket files
+compiled/
