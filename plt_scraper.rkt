@@ -14,7 +14,7 @@
 
 ; Download the PLaneT index and convert it to xexp
 (define (get-planet-ns planet-url)
-  (html->xexp (get-pure-port planet-url)))
+  (call/input-url planet-url get-pure-port html->xexp))
 
 ; Find those nodesets that superficially look like plt entries
 (define (possible-plts planet-ns)
