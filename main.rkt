@@ -35,6 +35,13 @@
       (values (hash-set stats major-version
                         (exact->inexact (/ freq num-plts)))))))
 
+(define (print-stats stats)
+  (printf "Number of Major Versions | Percentage of packages~n")
+  (printf "-------------------------------------------------~n")
+  (for ([(versions percentage) stats])
+    (printf "         ~a               |          ~a~n"
+            versions (~a (real->decimal-string (* 100 percentage) 1)
+                         #:align 'right #:min-width 5))))
 
 (let ([plt-details (scrape-planet proxy)])
-  (plt-stats plt-details))
+  (print-stats (plt-stats plt-details)))
