@@ -4,7 +4,8 @@
 ; Copyright (C) 2013 Lawrence Woodman
 ; Licensed under an MIT licence.  Please see LICENCE.md for details.
 
-(require "plt_scraper.rkt")
+(require "table_printer.rkt"
+         "plt_scraper.rkt")
 
 ;======================
 ;    Configuration
@@ -32,16 +33,21 @@
   (let ([num-plts (length (hash-keys plt-details))])
     (for/fold ([stats '#hash()])
       ([(major-version freq) (plt-version-freq plt-details)])
-      (values (hash-set stats major-version
-                        (exact->inexact (/ freq num-plts)))))))
+      (let ([percentage (exact->inexact (/ freq num-plts))])
+        (values (hash-set stats major-version
+                          (list freq percentage)))))))
+
 
 (define (print-stats stats)
-  (printf "Number of Major Versions | Percentage of packages~n")
-  (printf "-------------------------------------------------~n")
-  (for ([(versions percentage) stats])
-    (printf "         ~a               |          ~a~n"
-            versions (~a (real->decimal-string (* 100 percentage) 1)
-                         #:align 'right #:min-width 5))))
+  (let ([stats-entries
+         (for/list ([(versions stat) stats])
+           (let ([freq (number->string (first stat))]
+                 [percentage (real->decimal-string (* 100 (second stat)) 1)])
+             (list (number->string versions) freq percentage)))])
+    (print-table '("Number of Major Versions"
+                   "Number of Packages"
+                   "Percentage of Packages") stats-entries)))
+
 
 (let ([plt-details (scrape-planet proxy)])
   (print-stats (plt-stats plt-details)))
