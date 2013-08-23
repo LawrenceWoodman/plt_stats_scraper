@@ -1,5 +1,7 @@
-#lang racket
-(require math/base)
+#lang racket/base
+(require racket/list
+         racket/format
+         math/base)
 
 (provide print-table)
 

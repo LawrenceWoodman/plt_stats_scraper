@@ -1,12 +1,13 @@
-#lang racket
+#lang racket/base
 ; PLaneT package details scraper
 ;
 ; Copyright (C) 2013 Lawrence Woodman
 ; Licensed under an MIT licence.  Please see LICENCE.md for details.
 
-(require net/url)
-(require (planet neil/html-parsing:2:0))
-(require (planet clements/sxml2:1:=3))
+(require racket/list
+         net/url
+         (planet neil/html-parsing:2:0)
+         (planet clements/sxml2:1:=3))
 
 (provide scrape-planet)
 
@@ -42,9 +43,9 @@
 
 (define (version-ns->real v-node)
   (let* ([major-v (first (regexp-match #px"[[:digit:]]+"
-                                          (first ((node-pos 1) v-node))))]
+                                       (first ((node-pos 1) v-node))))]
          [minor-v (first (regexp-match #px"[[:digit:]]+" 
-                                          (first ((node-pos 3) v-node))))]
+                                       (first ((node-pos 3) v-node))))]
          [minor-v-digits (string-length minor-v)])
     (+ (string->number major-v) (/ (string->number minor-v)
                                    (expt 10.0 minor-v-digits)))))

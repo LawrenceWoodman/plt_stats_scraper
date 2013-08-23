@@ -1,10 +1,12 @@
-#lang racket
+#lang racket/base
 ; PLaneT package stats scraper
 ;
 ; Copyright (C) 2013 Lawrence Woodman
 ; Licensed under an MIT licence.  Please see LICENCE.md for details.
 
-(require "table_printer.rkt"
+(require racket/list
+         racket/math
+         "table_printer.rkt"
          "plt_scraper.rkt")
 
 ;======================
