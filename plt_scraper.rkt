@@ -5,11 +5,14 @@
 ; Licensed under an MIT licence.  Please see LICENCE.md for details.
 
 (require racket/list
+         racket/contract
          net/url
          (planet neil/html-parsing:2:0)
          (planet clements/sxml2:1:=3))
 
-(provide scrape-planet)
+(provide (contract-out
+          [scrape-planet (-> (or/c #f (list/c string? number?))
+                             (hash/c string? real?))]))
 
 (define planet-url (string->url "http://planet.racket-lang.org")) 
 

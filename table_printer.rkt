@@ -1,9 +1,13 @@
 #lang racket/base
-(require racket/list
+(require racket/contract
+         racket/list
          racket/format
          math/base)
 
-(provide print-table)
+(provide (contract-out
+          [print-table (-> (listof string?)
+                           (listof (listof string?))
+                           any/c)]))
 
 (define (print-table-headings column-names)
   (printf "| ~a | " (first column-names))

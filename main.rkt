@@ -46,6 +46,7 @@
            (let ([freq (number->string (first stat))]
                  [percentage (real->decimal-string (* 100 (second stat)) 1)])
              (list (number->string versions) freq percentage)))])
+
     (print-table '("Number of Major Versions"
                    "Number of Packages"
                    "Percentage of Packages") stats-entries)))
