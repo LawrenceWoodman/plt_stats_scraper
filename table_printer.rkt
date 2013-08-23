@@ -3,13 +3,17 @@
 
 (provide print-table)
 
-(define (print-table-headings column-names column-widths)
-  (let ([table-width
-         (+ (sum column-widths) (* 3 (length column-names)) 1)])
-    (printf "| ~a | " (first column-names))
-    (for ([column-name (rest column-names)])
-      (printf "~a | " column-name))
-    (printf "~n~a~n" (~a "" #:width table-width #:pad-string "-"))))
+(define (print-table-headings column-names)
+  (printf "| ~a | " (first column-names))
+  (for ([column-name (rest column-names)])
+    (printf "~a | " column-name))
+  (printf "~n"))
+
+(define (print-table-separator column-widths)
+  (printf "+~a+" (make-string (+ 2 (first column-widths)) #\-))
+  (for ([column-width (rest column-widths)])
+    (printf "~a+" (make-string (+ 2 column-width) #\-)))
+  (printf "~n"))
 
 (define (print-table-entries entries column-widths)
   (let ([max-value-widths
@@ -38,5 +42,8 @@
   (let ([column-widths
          (for/list ([column-name column-names])
            (string-length column-name))])
-    (print-table-headings column-names column-widths)
-    (print-table-entries entries column-widths)))
+    (print-table-separator column-widths)
+    (print-table-headings column-names)
+    (print-table-separator column-widths)
+    (print-table-entries entries column-widths)
+    (print-table-separator column-widths)))
