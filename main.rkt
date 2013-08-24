@@ -45,11 +45,14 @@
          (for/list ([(versions stat) stats])
            (let ([freq (number->string (first stat))]
                  [percentage (real->decimal-string (* 100 (second stat)) 1)])
-             (list (number->string versions) freq percentage)))])
-
+             (list (number->string versions) freq percentage)))]
+        [total-num-packages
+         (for/sum ([(versions stat) stats])
+           (first stat))])
     (print-table '("Number of Major Versions"
                    "Number of Packages"
-                   "Percentage of Packages") stats-entries)))
+                   "Percentage of Packages") stats-entries)
+    (printf "~n~nTotal Number of Packages: ~a~n" total-num-packages)))
 
 
 (let ([plt-details (scrape-planet proxy)])
